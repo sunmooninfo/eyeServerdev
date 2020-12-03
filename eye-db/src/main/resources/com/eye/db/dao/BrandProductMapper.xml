@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eye.db.dao.BrandProductMapper">
+
+    <select id="queryName" resultType="com.eye.db.domain.EyeBrandWeb">
+        select b.id,b.name from eye_brand_web b
+        left join
+        eye_brand_web_mer m
+        on b.id = m.brand_id and m.deleted=false
+        where m.brand_id is null and b.deleted=false;
+    </select>
+
+</mapper>

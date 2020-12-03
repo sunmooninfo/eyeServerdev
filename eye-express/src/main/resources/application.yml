@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: db, express
+  messages:
+    encoding: UTF-8
+
+logging:
+  level:
+    root:  ERROR
+    org.springframework:  ERROR
+    org.mybatis:  ERROR
+    com.eye.storage:  DEBUG

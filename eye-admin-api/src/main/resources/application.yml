@@ -1,0 +1,18 @@
+spring:
+  profiles:
+    active: db, core, admin,mail,sms,storage,express
+  messages:
+    encoding: UTF-8
+
+server:
+  port: 8091
+
+logging:
+  level:
+    root:  ERROR
+    org.springframework:  ERROR
+    org.mybatis:  ERROR
+    com.eye.admin:  DEBUG
+
+swagger:
+  production: false

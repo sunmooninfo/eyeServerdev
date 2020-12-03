@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eye.db.dao.MemberOrderMapper">
+    <update id="updateWithOptimisticLocker" parameterType="map">
+        update eye_member_order
+        <set>
+            <if test="memberOrder.id != null">
+                id = #{memberOrder.id,jdbcType=INTEGER},
+            </if>
+            <if test="memberOrder.userId != null">
+                user_id = #{memberOrder.userId,jdbcType=INTEGER},
+            </if>
+            <if test="memberOrder.packageId != null">
+                package_id = #{memberOrder.packageId,jdbcType=INTEGER},
+            </if>
+            <if test="memberOrder.orderSn != null">
+                order_sn = #{memberOrder.orderSn,jdbcType=VARCHAR},
+            </if>
+            <if test="memberOrder.consignee != null">
+                consignee = #{memberOrder.consignee,jdbcType=VARCHAR},
+            </if>
+            <if test="memberOrder.status != null">
+                status = #{memberOrder.status,jdbcType=SMALLINT},
+            </if>
+            <if test="memberOrder.mobile != null">
+                mobile = #{memberOrder.mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="memberOrder.price != null">
+                price = #{memberOrder.price,jdbcType=DECIMAL},
+            </if>
+            <if test="memberOrder.payId != null">
+                pay_id = #{memberOrder.payId,jdbcType=VARCHAR},
+            </if>
+            <if test="memberOrder.payTime != null">
+                pay_time = #{memberOrder.payTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="memberOrder.endTime != null">
+                end_time = #{memberOrder.endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="memberOrder.addTime != null">
+                add_time = #{memberOrder.addTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="memberOrder.updateTime != null">
+                update_time = #{memberOrder.updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="memberOrder.deleted != null">
+                deleted = #{memberOrder.deleted,jdbcType=BIT},
+            </if>
+        </set>
+        where id = #{memberOrder.id,jdbcType=INTEGER} and update_time = #{lastUpdateTime,jdbcType=INTEGER}
+    </update>
+</mapper>

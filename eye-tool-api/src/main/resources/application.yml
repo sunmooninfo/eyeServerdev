@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: db, core, mail
+  messages:
+    encoding: UTF-8
+
+server:
+  port: 9099

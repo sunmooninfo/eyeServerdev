@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <properties resource="generator.properties"/>
+    <context id="mysqlgenerator" targetRuntime="MyBatis3">
+        <property name="autoDelimitKeywords" value="true"/>
+        <!--可以使用``包括字段名，避免字段名与sql保留字冲突报错-->
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <!-- 为模型生成序列化方法-->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <!-- 自动生成toString方法 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <!-- 自动生成equals方法和hashcode方法 -->
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
+
+        <!-- 非官方插件 https://github.com/itfsw/mybatis-generator-plugin -->
+        <!-- 查询单条数据插件 -->
+        <plugin type="com.itfsw.mybatis.generator.plugins.SelectOneByExamplePlugin"/>
+        <!-- 查询结果选择性返回插件 -->
+        <plugin type="com.itfsw.mybatis.generator.plugins.SelectSelectivePlugin"/>
+        <!-- Example Criteria 增强插件 -->
+        <plugin type="com.itfsw.mybatis.generator.plugins.ExampleEnhancedPlugin"/>
+        <!-- 数据Model属性对应Column获取插件 -->
+        <plugin type="com.itfsw.mybatis.generator.plugins.ModelColumnPlugin"/>
+        <!--生成mapper.xml时覆盖原文件-->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
+        <!-- 逻辑删除插件 -->
+        <plugin type="com.itfsw.mybatis.generator.plugins.LogicalDeletePlugin">
+
+            <!-- 这里配置的是全局逻辑删除列和逻辑删除值，当然在table中配置的值会覆盖该全局配置 -->
+            <!-- 逻辑删除列类型只能为数字、字符串或者布尔类型 -->
+            <property name="logicalDeleteColumn" value="deleted"/>
+            <!-- 逻辑删除-已删除值 -->
+            <property name="logicalDeleteValue" value="1"/>
+            <!-- 逻辑删除-未删除值 -->
+            <property name="logicalUnDeleteValue" value="0"/>
+        </plugin>
+
+        <commentGenerator type="com.eye.db.CommentGenerator">
+            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="true"/>
+            <property name="addRemarkComments" value="true"/>
+        </commentGenerator>
+
+        <!--数据库连接信息-->
+        <jdbcConnection driverClass="${jdbc.driverClass}"
+                        connectionURL="${jdbc.connectionURL}"
+                        userId="${jdbc.userId}"
+                        password="${jdbc.password}">
+            <!--解决mysql驱动升级到8.0后不生成指定数据库代码的问题-->
+            <property name="nullCatalogMeansCurrent" value="true" />
+        </jdbcConnection>
+        <javaTypeResolver>
+            <property name="useJSR310Types" value="true"/>
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.eye.db.domain" targetProject="src/main/java"/>
+        <sqlMapGenerator targetPackage="com.eye.db.dao" targetProject="src/main/resources"/>
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.eye.db.dao"
+                             targetProject="src/main/java"/>
+
+
+        <table tableName="eye_company">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="role_ids" javaType="java.lang.Integer[]"
+                            typeHandler="com.eye.db.mybatis.JsonIntegerArrayTypeHandler"/>
+        </table>
+
+       <!-- <table tableName="eye_brand">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="eye_brand_web">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="eye_brand_web_mer">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>-->
+
+        <!--<table tableName="eye_article_category">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>-->
+        <!--<table tableName="eye_tool_admin">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>-->
+        <!--  <table tableName="eye_tool_account">
+             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_goods_kill">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+              <columnOverride column="kill_date" javaType="java.lang.String[]"
+                              typeHandler="com.eye.db.mybatis.JsonStringArrayTypeHandler"/>
+          </table>
+          <table tableName="eye_commission">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_sign_store">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_topic_category">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_accessory">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_article">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_brand">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_brand_web">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_brand_web_mer">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_category">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_domain">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_groupon_cart">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+              <columnOverride column="specifications" javaType="java.lang.String[]"
+                              typeHandler="com.eye.db.mybatis.JsonStringArrayTypeHandler"/>
+          </table>
+          <table tableName="eye_integral">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_integral_goods">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_member_goods">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_member_order">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_member_package">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_member_user">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_ad">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_address">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+           <table tableName="eye_admin">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+              <columnOverride column="role_ids" javaType="java.lang.Integer[]"
+                              typeHandler="com.eye.db.mybatis.JsonIntegerArrayTypeHandler"/>
+          </table>
+          <table tableName="eye_aftersale">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+              <columnOverride column="pictures" javaType="java.lang.String[]"
+                              typeHandler="com.eye.db.mybatis.JsonStringArrayTypeHandler"/>
+          </table>
+          <table tableName="eye_cart">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+              <columnOverride column="specifications" javaType="java.lang.String[]"
+                              typeHandler="com.eye.db.mybatis.JsonStringArrayTypeHandler"/>
+          </table>
+          <table tableName="eye_collect">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_comment">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+              <columnOverride column="pic_urls" javaType="java.lang.String[]"
+                              typeHandler="com.eye.db.mybatis.JsonStringArrayTypeHandler"/>
+          </table>
+          <table tableName="eye_coupon">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+              <columnOverride column="goods_value" javaType="java.lang.Integer[]"
+                              typeHandler="com.eye.db.mybatis.JsonIntegerArrayTypeHandler"/>
+          </table>
+          <table tableName="eye_coupon_user">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_feedback">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+              <columnOverride column="pic_urls" javaType="java.lang.String[]"
+                              typeHandler="com.eye.db.mybatis.JsonStringArrayTypeHandler"/>
+          </table>
+          <table tableName="eye_footprint">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_goods">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+              <columnOverride column="gallery" javaType="java.lang.String[]"
+                              typeHandler="com.eye.db.mybatis.JsonStringArrayTypeHandler"/>
+          </table>
+          <table tableName="eye_goods_attribute">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_goods_product">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+              <columnOverride column="specifications" javaType="java.lang.String[]"
+                              typeHandler="com.eye.db.mybatis.JsonStringArrayTypeHandler"/>
+          </table>
+          <table tableName="eye_goods_specification">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_groupon">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_groupon_rules">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_issue">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_keyword">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_log">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_notice">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_notice_admin">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_order">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_order_goods">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+              <columnOverride column="specifications" javaType="java.lang.String[]"
+                              typeHandler="com.eye.db.mybatis.JsonStringArrayTypeHandler"/>
+              <columnOverride column="comments" javaType="java.lang.Integer[]"
+                              typeHandler="com.eye.db.mybatis.JsonIntegerArrayTypeHandler"/>
+          </table>
+          <table tableName="eye_permission">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_region">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_role">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_search_history">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_storage">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_system">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+          <table tableName="eye_topic">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+              <columnOverride column="goods" javaType="java.lang.Integer[]"
+                              typeHandler="com.eye.db.mybatis.JsonIntegerArrayTypeHandler"/>
+              <columnOverride column="topic_category_ids" javaType="java.lang.Integer[]"
+                              typeHandler="com.eye.db.mybatis.JsonIntegerArrayTypeHandler"/>
+          </table>
+          <table tableName="eye_user">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+           -->
+
+    </context>
+</generatorConfiguration>

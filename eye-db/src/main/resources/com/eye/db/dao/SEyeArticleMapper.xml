@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eye.db.dao.SEyeArticleMapper">
+    <resultMap id="BaseResultMap" type="com.eye.db.domain.SEyeArticle">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="label" jdbcType="VARCHAR" property="label" />
+        <result column="name" jdbcType="VARCHAR" property="categoryName" />
+        <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+        <result column="keywords" jdbcType="VARCHAR" property="keywords" />
+        <result column="sort_order" jdbcType="SMALLINT" property="sortOrder" />
+        <result column="link" jdbcType="VARCHAR" property="link" />
+        <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+
+    </resultMap>
+    <select id="search" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+            art.id,
+            art.title,
+            art.label,
+            cat. NAME,
+            art.pic_url,
+            art.keywords,
+            art.link,
+            art.sort_order,
+            art.add_time
+        FROM
+            eye_article art
+        LEFT JOIN eye_article_category cat ON art.category_id = cat.id
+        WHERE
+            art.is_search = 1
+        AND art.deleted = 0
+        AND art.title LIKE #{keywords,jdbcType=VARCHAR}
+        OR art.keywords LIKE #{keywordss,jdbcType=VARCHAR}
+        ORDER BY #{sortOrder}
+    </select>
+
+</mapper>

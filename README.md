@@ -1,4 +1,4 @@
-# eyeServerdev
+﻿# eyeServerdev
 
 eyeServer = Spring Boot后端 + Vue管理员前端 + Vue品牌网前端 + uni-app微信小程序用户前端 + uni-app用户移动端
 
@@ -97,6 +97,28 @@ eyeServer = Spring Boot后端 + Vue管理员前端 + Vue品牌网前端 + uni-ap
     * [Elasticsearch](https://www.elastic.co/cn/downloads/elasticsearch)
     * [Erlang](https://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm)
     * [RabbitMQ](http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.6/rabbitmq-server-3.6.6-1.el7.noarch.rpm)
+
+### 安装OpenJDK
+
+yum search java-11-openjdk
+
+yum install java-11-openjdk-devel.x86_64
+
+### 安装Maven
+
+wget https://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.zip
+
+unzip apache-maven-3.6.3-bin.zip
+
+vi /etc/profile
+
+在最后添加
+
+export M2_HOME=/root/apache-maven-3.6.3
+
+export PATH=$PATH:$JAVA_HOME/bin:$M2_HOME/bin
+
+source /etc/profile
     
     
 2. 数据库依次导入eye-db/sql下的数据库文件

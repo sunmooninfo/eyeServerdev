@@ -132,6 +132,7 @@ public class CommonAuthController {
         String sessionKey = null;
         String openId = null;
         String unionid = null;
+        EyeUser user = null;
         try {
             WxMaJscode2SessionResult result = this.wxService.getUserService().getSessionInfo(code);
             sessionKey = result.getSessionKey();
@@ -140,38 +141,68 @@ public class CommonAuthController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        if (sessionKey == null || openId == null || unionid ==null) {
+        if(sessionKey == null || openId == null ){
             return ResponseUtil.fail();
         }
-        EyeUser user = userService.queryByUnionId(unionid);
 
-        if (user == null) {
-            user = new EyeUser();
-            user.setUsername(openId);
-            user.setPassword(openId);
-            user.setWeixinOpenid(openId);
-            user.setUnionId(unionid);
-            user.setAvatar(userInfo.getAvatarUrl());
-            user.setNickname(userInfo.getNickName());
-            user.setGender(userInfo.getGender());
-            user.setUserLevel((byte) 0);
-            user.setStatus((byte) 0);
-            user.setLastLoginTime(LocalDateTime.now());
-            user.setLastLoginIp(IpUtil.getIpAddr(request));
-            user.setSessionKey(sessionKey);
+        if(unionid == null ){
+            user = userService.queryByOid(openId);
+            if (user == null) {
+                user = new EyeUser();
+                user.setUsername(openId);
+                user.setPassword(openId);
+                user.setWeixinOpenid(openId);
+                user.setUnionId(unionid);
+                user.setAvatar(userInfo.getAvatarUrl());
+                user.setNickname(userInfo.getNickName());
+                user.setGender(userInfo.getGender());
+                user.setUserLevel((byte) 0);
+                user.setStatus((byte) 0);
+                user.setLastLoginTime(LocalDateTime.now());
+                user.setLastLoginIp(IpUtil.getIpAddr(request));
+                user.setSessionKey(sessionKey);
 
-            userService.add(user);
+                userService.add(user);
 
-            // 新用户发送注册优惠券
-            couponAssignService.assignForRegister(user.getId());
-        } else {
-            user.setWeixinOpenid(openId);
-            user.setLastLoginTime(LocalDateTime.now());
-            user.setLastLoginIp(IpUtil.getIpAddr(request));
-            user.setSessionKey(sessionKey);
-            if (userService.updateById(user) == 0) {
-                return ResponseUtil.updatedDataFailed();
+                // 新用户发送注册优惠券
+                couponAssignService.assignForRegister(user.getId());
+            } else {
+                user.setLastLoginTime(LocalDateTime.now());
+                user.setLastLoginIp(IpUtil.getIpAddr(request));
+                user.setSessionKey(sessionKey);
+                if (userService.updateById(user) == 0) {
+                    return ResponseUtil.updatedDataFailed();
+                }
+            }
+        }else{
+            user = userService.queryByUnionId(unionid);
+            if (user == null) {
+                user = new EyeUser();
+                user.setUsername(openId);
+                user.setPassword(openId);
+                user.setWeixinOpenid(openId);
+                user.setUnionId(unionid);
+                user.setAvatar(userInfo.getAvatarUrl());
+                user.setNickname(userInfo.getNickName());
+                user.setGender(userInfo.getGender());
+                user.setUserLevel((byte) 0);
+                user.setStatus((byte) 0);
+                user.setLastLoginTime(LocalDateTime.now());
+                user.setLastLoginIp(IpUtil.getIpAddr(request));
+                user.setSessionKey(sessionKey);
+
+                userService.add(user);
+
+                // 新用户发送注册优惠券
+                couponAssignService.assignForRegister(user.getId());
+            } else {
+                user.setWeixinOpenid(openId);
+                user.setLastLoginTime(LocalDateTime.now());
+                user.setLastLoginIp(IpUtil.getIpAddr(request));
+                user.setSessionKey(sessionKey);
+                if (userService.updateById(user) == 0) {
+                    return ResponseUtil.updatedDataFailed();
+                }
             }
         }
 
@@ -197,33 +228,69 @@ public class CommonAuthController {
 
 //        String sessionKey = null;
         String openId = userInfo.getOpenId();
-        EyeUser user = userService.queryByUnionId(userInfo.getUnionId());
-        if (user == null) {
-            user = new EyeUser();
-            user.setUsername(openId);
-            user.setPassword(openId);
-            user.setAppOpenid(userInfo.getOpenId());
-            user.setUnionId(userInfo.getUnionId());
-            user.setAvatar(userInfo.getAvatarUrl());
-            user.setNickname(userInfo.getNickName());
-            user.setGender(userInfo.getGender());
-            user.setUserLevel((byte) 0);
-            user.setStatus((byte) 0);
-            user.setLastLoginTime(LocalDateTime.now());
-            user.setLastLoginIp(IpUtil.getIpAddr(request));
+        String unionId = userInfo.getUnionId();
+        EyeUser user = null;
+        if(openId == null ){
+            return ResponseUtil.fail();
+        }
+        if(unionId == null){
+            user = userService.queryByOid(openId);
+            if (user == null) {
+                user = new EyeUser();
+                user.setUsername(openId);
+                user.setPassword(openId);
+                user.setAppOpenid(userInfo.getOpenId());
+                user.setUnionId(userInfo.getUnionId());
+                user.setAvatar(userInfo.getAvatarUrl());
+                user.setNickname(userInfo.getNickName());
+                user.setGender(userInfo.getGender());
+                user.setUserLevel((byte) 0);
+                user.setStatus((byte) 0);
+                user.setLastLoginTime(LocalDateTime.now());
+                user.setLastLoginIp(IpUtil.getIpAddr(request));
 //            user.setSessionKey(sessionKey);
 
-            userService.add(user);
+                userService.add(user);
 
-            // 新用户发送注册优惠券
-            couponAssignService.assignForRegister(user.getId());
-        } else {
-            user.setAppOpenid(userInfo.getOpenId());
-            user.setLastLoginTime(LocalDateTime.now());
-            user.setLastLoginIp(IpUtil.getIpAddr(request));
+                // 新用户发送注册优惠券
+                couponAssignService.assignForRegister(user.getId());
+            } else {
+                user.setLastLoginTime(LocalDateTime.now());
+                user.setLastLoginIp(IpUtil.getIpAddr(request));
 //            user.setSessionKey(sessionKey);
-            if (userService.updateById(user) == 0) {
-                return ResponseUtil.updatedDataFailed();
+                if (userService.updateById(user) == 0) {
+                    return ResponseUtil.updatedDataFailed();
+                }
+            }
+        }else{
+            user = userService.queryByUnionId(userInfo.getUnionId());
+            if (user == null) {
+                user = new EyeUser();
+                user.setUsername(openId);
+                user.setPassword(openId);
+                user.setAppOpenid(userInfo.getOpenId());
+                user.setUnionId(userInfo.getUnionId());
+                user.setAvatar(userInfo.getAvatarUrl());
+                user.setNickname(userInfo.getNickName());
+                user.setGender(userInfo.getGender());
+                user.setUserLevel((byte) 0);
+                user.setStatus((byte) 0);
+                user.setLastLoginTime(LocalDateTime.now());
+                user.setLastLoginIp(IpUtil.getIpAddr(request));
+//            user.setSessionKey(sessionKey);
+
+                userService.add(user);
+
+                // 新用户发送注册优惠券
+                couponAssignService.assignForRegister(user.getId());
+            } else {
+                user.setAppOpenid(userInfo.getOpenId());
+                user.setLastLoginTime(LocalDateTime.now());
+                user.setLastLoginIp(IpUtil.getIpAddr(request));
+//            user.setSessionKey(sessionKey);
+                if (userService.updateById(user) == 0) {
+                    return ResponseUtil.updatedDataFailed();
+                }
             }
         }
 

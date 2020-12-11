@@ -227,19 +227,22 @@ public class CommonGoodsController {
 	 */
 	@GetMapping("category")
 	@ApiOperation("商品分类类目")
-	@ApiImplicitParam(name="id",value = "分类类目id",required=true,paramType="path",dataType="int")
-	public Object category(@NotNull Integer id) {
+	@ApiImplicitParams({
+			@ApiImplicitParam(name="categoryId",value = "分类类目ID",required=false,paramType="path",dataType="int"),
+			@ApiImplicitParam(name="isShown",value = "是否在小程序展示",required=false,paramType="path",dataType="Boolean")
+	})
+	public Object category(@NotNull Integer id, Boolean isShown) {
 		EyeCategory cur = categoryService.findById(id);
 		EyeCategory parent = null;
 		List<EyeCategory> children = null;
 
 		if (cur.getPid() == 0) {
 			parent = cur;
-			children = categoryService.queryByPid(cur.getId());
+			children = categoryService.queryByPid(cur.getId(),isShown);
 			cur = children.size() > 0 ? children.get(0) : cur;
 		} else {
 			parent = categoryService.findById(cur.getPid());
-			children = categoryService.queryByPid(cur.getPid());
+			children = categoryService.queryByPid(cur.getPid(),isShown);
 		}
 		Map<String, Object> data = new HashMap<>();
 		data.put("currentCategory", cur);

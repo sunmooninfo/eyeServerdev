@@ -761,7 +761,6 @@ public class CommonOrderService {
             fee = actualPrice.multiply(new BigDecimal(100)).intValue();
             orderRequest.setTotalFee(fee);
             orderRequest.setSpbillCreateIp(IpUtil.getIpAddr(request));
-            orderRequest.setNotifyUrl("https://wwwapidev.6eye9.com/common/order/pay-notify");
             orderRequest.setTradeType("JSAPI");
             result = wxPayService.createOrder(orderRequest);
         } catch (Exception e) {
@@ -815,7 +814,6 @@ public class CommonOrderService {
             fee = actualPrice.multiply(new BigDecimal(100)).intValue();
             orderRequest.setTotalFee(fee);
             orderRequest.setSpbillCreateIp(IpUtil.getIpAddr(request));
-            orderRequest.setNotifyUrl("https://wwwapidev.6eye9.com/common/order/pay-notify");
             orderRequest.setTradeType("APP");
             orderRequest.setAppid("wxd2c3ff0d5a17f689");
             result = wxPayService.createOrder(orderRequest);
@@ -870,7 +868,6 @@ public class CommonOrderService {
             fee = actualPrice.multiply(new BigDecimal(100)).intValue();
             orderRequest.setTotalFee(fee);
             orderRequest.setSpbillCreateIp(IpUtil.getIpAddr(request));
-            orderRequest.setNotifyUrl("https://indexapi.ilovelearning.cn/common/order/pay-notify");
             result = wxPayService.createOrder(orderRequest);
             String mwebUrl = result.getMwebUrl();
             result.setMwebUrl(mwebUrl+"&redirect_url=https%3A%2F%2Findex.ilovelearning.cn%2F%23%2Fpages%2Forder%2Forder%3Ftype%3D0");
@@ -987,17 +984,17 @@ public class CommonOrderService {
         // 订单支付成功以后，会发送短信给用户，以及发送邮件给管理员
         //smsNotifyService.notifyMail("新订单通知", order.toString());
         // 这里微信的短信平台对参数长度有限制，所以将订单号只截取后6位
-        smsNotifyService.notifySmsTemplateSync(order.getMobile(), SmsNotifyType.PAY_SUCCEED, new String[]{orderSn.substring(8, 14)});
+//        smsNotifyService.notifySmsTemplateSync(order.getMobile(), SmsNotifyType.PAY_SUCCEED, new String[]{orderSn.substring(8, 14)});
 
         // 请依据自己的模版消息配置更改参数
-        String[] parms = new String[]{
-                order.getOrderSn(),
-                order.getOrderPrice().toString(),
-                DateTimeUtil.getDateTimeDisplayString(order.getAddTime()),
-                order.getConsignee(),
-                order.getMobile(),
-                order.getAddress()
-        };
+//        String[] parms = new String[]{
+//                order.getOrderSn(),
+//                order.getOrderPrice().toString(),
+//                DateTimeUtil.getDateTimeDisplayString(order.getAddTime()),
+//                order.getConsignee(),
+//                order.getMobile(),
+//                order.getAddress()
+//        };
 
         // 取消订单超时未支付任务
         taskService.removeTask(new OrderUnpaidTask(order.getId()));

@@ -67,6 +67,7 @@ public class AdminCategoryController {
                 subCategoryVo.setLevel(subCategory.getLevel());
                 subCategoryVo.setPid(subCategory.getPid());
                 subCategoryVo.setSortOrder(subCategory.getSortOrder());
+                subCategoryVo.setIsShown(subCategory.getIsShown());
 
                 children.add(subCategoryVo);
             }

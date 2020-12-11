@@ -22,6 +22,7 @@
         <module>eye-admin-api</module>
         <module>eye-mail</module>
         <module>eye-all</module>
+        <module>eye-seckill-api</module>
     </modules>
     <packaging>pom</packaging>
 

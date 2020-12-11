@@ -6,6 +6,7 @@ import com.eye.db.domain.EyeCategory;
 import com.eye.db.service.EyeCategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -43,10 +44,13 @@ public class CommonCatalogController {
 
     @GetMapping("/getsecondcategory")
     @ApiOperation("显示所有二级分类目录")
-    @ApiImplicitParam(name="id",value ="一级分类id",required=true,paramType = "path",dataType="int")
-    public Object getSecondCategory(@NotNull Integer id) {
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="categoryId",value = "一级类目ID",required=false,paramType="path",dataType="int"),
+            @ApiImplicitParam(name="isShown",value = "是否在小程序展示",required=false,paramType="path",dataType="Boolean")
+    })
+    public Object getSecondCategory(@NotNull Integer id,Boolean isShown) {
         // 所有二级分类目录
-        List<EyeCategory> currentSubCategory = categoryService.queryByPid(id);
+        List<EyeCategory> currentSubCategory = categoryService.queryByPid(id,isShown);
         return ResponseUtil.ok(currentSubCategory);
     }
 
@@ -60,8 +64,11 @@ public class CommonCatalogController {
      */
     @GetMapping("index")
     @ApiOperation("分类详情")
-    @ApiImplicitParam(name="id",value ="分类id",required=true,paramType = "path",dataType="int")
-    public Object index(Integer id) {
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="categoryId",value = "分类类目ID",required=false,paramType="path",dataType="int"),
+            @ApiImplicitParam(name="isShown",value = "是否在小程序展示",required=false,paramType="path",dataType="Boolean")
+    })
+    public Object index(Integer id,Boolean isShown) {
 
         // 所有一级分类目录
         List<EyeCategory> l1CatList = categoryService.queryL1();
@@ -79,7 +86,7 @@ public class CommonCatalogController {
         // 当前一级分类目录对应的二级分类目录
         List<EyeCategory> currentSubCategory = null;
         if (null != currentCategory) {
-            currentSubCategory = categoryService.queryByPid(currentCategory.getId());
+            currentSubCategory = categoryService.queryByPid(currentCategory.getId(),isShown);
         }
 
         Map<String, Object> data = new HashMap<String, Object>();
@@ -96,7 +103,8 @@ public class CommonCatalogController {
      */
     @GetMapping("all")
     @ApiOperation("所有分类数据")
-    public Object queryAll() {
+    @ApiImplicitParam(name="isShown",value = "是否在小程序展示",required=false,paramType="path",dataType="Boolean")
+    public Object queryAll(Boolean isShown) {
         //优先从缓存中读取
         if (HomeCacheManager.hasData(HomeCacheManager.CATALOG)) {
             return ResponseUtil.ok(HomeCacheManager.getCacheData(HomeCacheManager.CATALOG));
@@ -110,7 +118,7 @@ public class CommonCatalogController {
         Map<Integer, List<EyeCategory>> allList = new HashMap<>();
         List<EyeCategory> sub;
         for (EyeCategory category : l1CatList) {
-            sub = categoryService.queryByPid(category.getId());
+            sub = categoryService.queryByPid(category.getId(),isShown);
             allList.put(category.getId(), sub);
         }
 
@@ -120,7 +128,7 @@ public class CommonCatalogController {
         // 当前一级分类目录对应的二级分类目录
         List<EyeCategory> currentSubCategory = null;
         if (null != currentCategory) {
-            currentSubCategory = categoryService.queryByPid(currentCategory.getId());
+            currentSubCategory = categoryService.queryByPid(currentCategory.getId(),isShown);
         }
 
         Map<String, Object> data = new HashMap<String, Object>();
@@ -142,14 +150,17 @@ public class CommonCatalogController {
      */
     @GetMapping("current")
     @ApiOperation("显示当前分类栏目")
-    @ApiImplicitParam(name="id",value ="分类id",required=true,paramType = "path",dataType="int")
-    public Object current(@NotNull Integer id) {
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="categoryId",value = "分类类目ID",required=false,paramType="path",dataType="int"),
+            @ApiImplicitParam(name="isShown",value = "是否在小程序展示",required=false,paramType="path",dataType="Boolean")
+    })
+    public Object current(@NotNull Integer id, Boolean isShown) {
         // 当前分类
         EyeCategory currentCategory = categoryService.findById(id);
         if(currentCategory == null){
             return ResponseUtil.badArgumentValue();
         }
-        List<EyeCategory> currentSubCategory = categoryService.queryByPid(currentCategory.getId());
+        List<EyeCategory> currentSubCategory = categoryService.queryByPid(currentCategory.getId(),isShown);
 
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("currentCategory", currentCategory);

@@ -2,7 +2,7 @@
 
 ## 1 小商城
 
-这里主要是指eye-common-api、eye-common和renard-common三个模块的相关问题。
+这里主要是指eye-common-api模块的相关问题。
 
 ### 1.1 小程序微信登录失败
 
@@ -17,7 +17,7 @@
 解决：
 
 1. 如果只是体验商品购买流程，开发者可以采用账号注册登录方式。
-2. 开发者在eye-common、renard-common和eye-core模块的appid信息设置成自己申请的信息。
+2. 开发者在eye-core模块的appid信息设置成自己申请的信息。
 
 ### 1.2 appid已经修改，微信登陆仍然失败
 
@@ -31,7 +31,7 @@
 
 解决：
 
-微信开发者工具中修改appid以后，请关闭eye-common项目或者微信开发者工具，重新启动导入eye-common。
+微信开发者工具中修改appid以后，请前端项目或关闭微信开发者工具，重新启动导入前端项目。
 
 ### 1.3 手机真机测试不正常
 
@@ -45,10 +45,10 @@
 
 解决：
 
-1. 确保小商场后端服务可以访问，可以通过手机浏览器访问后端服务地址测试
-   * 小商场的后端服务地址是localhost，则手机不可访问；
-   * 小商场的后端服务地址是局域网地址，而手机不在局域网中（例如不是相同wifi，或者手机是移动网络）
-   * 小商场的后端服务未启动
+1. 确保付费知识平台后端服务可以访问，可以通过手机浏览器访问后端服务地址测试
+   * 付费知识平台的后端服务地址是localhost，则手机不可访问；
+   * 付费知识平台的后端服务地址是局域网地址，而手机不在局域网中（例如不是相同wifi，或者手机是移动网络）
+   * 付费知识平台的后端服务未启动
 2. 手机小商场的**调试功能**开启
 
 ### 1.4 第三方手机测试不正常
@@ -59,25 +59,25 @@
 
 解决：
 
-1. 确保小商场后端服务可以访问，可以通过第三者手机浏览器访问后端服务地址测试
-2. 第三者手机小商场的**调试功能**开启
+1. 确保付费知识平台后端服务可以访问，可以通过第三者手机浏览器访问后端服务地址测试
+2. 第三者手机付费知识平台的**调试功能**开启
 3. 在微信小程序平台设置第三者的微信账号是**体验者**
 
 ### 1.5 微信支付失败
 
 现象：
 
-小商场不能支付，或者点击支付总是报错
+付费知识平台不能支付，或者点击支付总是报错
 
 原因：
 
 开发者必须拥有商户支付权限，然后设置好以下信息：
 ```
-eye.common.app-id=
-eye.common.app-secret=
-eye.common.mch-id=
-eye.common.mch-key=
-eye.common.notify-url=
+litemall.wx.app-id=
+litemall.wx.app-secret=
+litemall.wx.mch-id=
+litemall.wx.mch-key=
+litemall.wx.notify-url=
 ```
 
 解决：
@@ -99,15 +99,17 @@ eye.common.notify-url=
 解决：
 
 1. 如果开发者是在微信开发者工具中测试支付，那么需要采用一些内网穿透工具，
-把`WxOrderController.payNotify`所代表的本地地址，例如`http://localhots/common/order/pay-notify`,
-转换成外网可以访问的地址，例如`http://xxx.com/common/order/pay-notify`，最后
-设置`common.notify-url`指向该地址。
+把`WxOrderController.payNotify`所代表的本地地址，例如`http://localhots/wx/order/pay-notify`,
+转换成外网可以访问的地址，例如`http://xxx.com/wx/order/pay-notify`，最后
+设置`wx.notify-url`指向该地址。
+
+* [内网穿透参考](./NAT-DDNS.md)
 
 2. 如果开发者已经上线服务，请确认`common.notify-url`所指向的访问链接可以正常工作。
 
 ## 2. 管理后台
 
-这里主要是指eye-admin-api和eye-admin两个模块的相关问题。
+这里主要是指eye-admin-api和相关问题。
 
 ### 2.1 登录连接超时，联系管理员
 
@@ -118,7 +120,7 @@ eye.common.notify-url=
 原因：
 
 1. 首先，需要明白这是前后端分离项目，前端会向后端发送请求；
-2. 其次，需要明白报错的地方，是eye-admin/src/utils/request.js文件中;
+2. 其次，需要明白报错的地方，是前端eye-admin/src/utils/request.js文件中;
 3. 最后，连接超时是说发送给后端的请求长时间未反应。这里存在两个可能性：
     * 真连接超时，目前request.js文件中设置请求超时时间是5s，因此真的可能5s后端
     未及时返回数据；
@@ -133,21 +135,7 @@ eye.common.notify-url=
 3. 最后，如果设置正确，用chrome的开发者工具查看登录页面向后端请求返回数据信息；
 如果设置不正确，请启动相应的后端服务。
 
-### 2.2 安装失败/启动不成功
-
-现象：
-
-执行`yarn install`失败
-
-原因：
-
-可能下载依赖失败。
-
-解决：
-
-清空node_modules，重新执行`yarn install`命令，或者自行百度、Google。
-
-### 2.3 分页数据返回不正常
+### 2.2 分页数据返回不正常
 
 现象：
 

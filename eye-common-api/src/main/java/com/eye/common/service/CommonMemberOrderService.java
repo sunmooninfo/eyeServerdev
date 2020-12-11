@@ -1,6 +1,7 @@
 package com.eye.common.service;
 
 import com.eye.common.task.MemberOrderUnpaidTask;
+import com.eye.core.config.WxConfigVo;
 import com.eye.core.task.TaskService;
 import com.eye.core.utils.DateTimeUtil;
 import com.eye.core.utils.IpUtil;
@@ -54,7 +55,6 @@ public class CommonMemberOrderService {
     private EyeIntegralService integralService;
     @Autowired
     private EyeMemberUserService memberUserService;
-
     @Autowired
     private EyeUserService userService;
     @Autowired
@@ -62,8 +62,7 @@ public class CommonMemberOrderService {
     @Autowired
     private TaskService taskService;
     @Autowired
-    private SmsNotifyService smsNotifyService;
-
+    private WxConfigVo wxConfigVo;
     //提交订单
     @Transactional
     public Object submit(Integer userId, String body) {
@@ -147,7 +146,7 @@ public class CommonMemberOrderService {
             fee = actualPrice.multiply(new BigDecimal(100)).intValue();
             orderRequest.setTotalFee(fee);
             orderRequest.setSpbillCreateIp(IpUtil.getIpAddr(request));
-            orderRequest.setNotifyUrl("https://wwwapidev.6eye9.com/common/member/order/pay-notify");
+            orderRequest.setNotifyUrl(wxConfigVo.getVipNotifyUrl());
             orderRequest.setTradeType("JSAPI");
 
             result = wxPayService.createOrder(orderRequest);
@@ -320,7 +319,7 @@ public class CommonMemberOrderService {
             fee = actualPrice.multiply(new BigDecimal(100)).intValue();
             orderRequest.setTotalFee(fee);
             orderRequest.setSpbillCreateIp(IpUtil.getIpAddr(request));
-            orderRequest.setNotifyUrl("https://wwwapidev.6eye9.com/common/member/order/pay-notify");
+            orderRequest.setNotifyUrl(wxConfigVo.getVipNotifyUrl());
             orderRequest.setTradeType("APP");
             orderRequest.setAppid("wxd2c3ff0d5a17f689");
             result = wxPayService.createOrder(orderRequest);
@@ -368,7 +367,7 @@ public class CommonMemberOrderService {
             fee = actualPrice.multiply(new BigDecimal(100)).intValue();
             orderRequest.setTotalFee(fee);
             orderRequest.setSpbillCreateIp(IpUtil.getIpAddr(request));
-            orderRequest.setNotifyUrl("https://indexapi.ilovelearning.cn/common/member/order/pay-notify");
+            orderRequest.setNotifyUrl(wxConfigVo.getVipNotifyUrl());
 //            orderRequest.setTradeType("JSAPI");
             result = wxPayService.createOrder(orderRequest);
             Map<String,String> extraHeaders = new HashMap<>();

@@ -17,6 +17,8 @@ public class WxProperties {
 
     private String notifyUrl;
 
+    private String vipNotifyUrl;
+
     private String keyPath;
 
     public String getNotifyUrl() {
@@ -25,6 +27,14 @@ public class WxProperties {
 
     public void setNotifyUrl(String notifyUrl) {
         this.notifyUrl = notifyUrl;
+    }
+
+    public String getVipNotifyUrl() {
+        return vipNotifyUrl;
+    }
+
+    public void setVipNotifyUrl(String vipNotifyUrl) {
+        this.vipNotifyUrl = vipNotifyUrl;
     }
 
     public String getMchKey() {

@@ -170,7 +170,7 @@ public class CommonHomeController {
         List<Map> categoryList = new ArrayList<>();
         List<EyeCategory> catL1List = categoryService.queryL1WithoutRecommend(0, SystemConfig.getCatlogListLimit());
         for (EyeCategory catL1 : catL1List) {
-            List<EyeCategory> catL2List = categoryService.queryByPid(catL1.getId());
+            List<EyeCategory> catL2List = categoryService.queryByPid(catL1.getId(),isShown);
             List<Integer> l2List = new ArrayList<>();
             for (EyeCategory catL2 : catL2List) {
                 l2List.add(catL2.getId());

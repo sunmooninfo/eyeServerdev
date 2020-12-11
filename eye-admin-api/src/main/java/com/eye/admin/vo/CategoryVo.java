@@ -17,7 +17,7 @@ public class CategoryVo {
     private Integer pid;
     private Byte sortOrder;
     private Boolean deleted;
-
+    private Boolean isShown;
 
     public Byte getSortOrder() {
         return sortOrder;
@@ -107,5 +107,13 @@ public class CategoryVo {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public Boolean getIsShown() {
+        return isShown;
+    }
+
+    public void setIsShown(Boolean isShown) {
+        this.isShown = isShown;
     }
 }

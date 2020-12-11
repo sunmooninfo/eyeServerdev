@@ -1,7 +1,5 @@
 ﻿# eyeServerdev
 
-eyeServer = Spring Boot后端 + Vue管理员前端 + Vue品牌网前端 + uni-app微信小程序用户前端 + uni-app用户移动端
-
 * [文档](./doc/README.md)
 * [贡献](./doc/CONTRIBUTE.md)
 * [FAQ](./doc/FAQ.md)
@@ -27,7 +25,7 @@ eyeServer = Spring Boot后端 + Vue管理员前端 + Vue品牌网前端 + uni-ap
 
 * ulovemall-h5模块实例
 
-1. 手机浏览器打开: [https://index.ilovelearning.cn/](https://index.ilovelearning.cn/)
+1. 手机浏览器打开: [https://wwwdev.6eye9.com/](https://wwwdev.6eye9.com/)
 
 ### 品牌网PC实例
 
@@ -35,27 +33,25 @@ eyeServer = Spring Boot后端 + Vue管理员前端 + Vue品牌网前端 + uni-ap
 
 ### 文章网实例
 
-1.浏览器访问地址：[https://index.ilovelearning.cn/](https://index.ilovelearning.cn/)
+1.浏览器访问地址：[https://wwwdev.6eye9.com/](https://wwwdev.6eye9.com/)
 
 ### 管理后台实例
 
 ![](./doc/pics/readme/admin-dashboard.png)
 
-1. 浏览器打开，输入以下网址: [https://indexadmin.ilovelearning.cn](https://indexadmin.ilovelearning.cn)
+1. 浏览器打开，输入以下网址: [https://wwwadmindev.6eye9.com/](https://wwwadmindev.6eye9.com/)
 2. 用户访问用户名`guest`，管理员密码`Guest123`
 > 注意：此实例是付费知识平台的管理后台，请勿删除和更改数据。
 
 ## 项目架构
-![](./doc/pics/readme/ulovemall-structrue.png)
+![](./doc/pics/project/project-structure.jpg)
 
 ## 技术栈
 
-> 1. Spring Boot
-> 2. Uiniapp
-> 3. Vue
-> 4. 微信小程序
+> 1. [Spring Boot](./doc/technology.md)
+> 2. [微信小程序](./doc/technology.md)
 
-![](doc/pics/readme/technology-stack.png)
+![](doc/pics/readme/readme-structure.jpg)
 
 ### 付费知识平台功能
 
@@ -88,45 +84,25 @@ eyeServer = Spring Boot后端 + Vue管理员前端 + Vue品牌网前端 + uni-ap
 ## 快速启动
 
 1. 配置最小开发环境：
-    * [MySQL](https://dev.mysql.com/downloads/mysql/)
-    * [JDK1.8或以上](http://www.oracle.com/technetwork/java/javase/overview/index.html)
-    * [Maven](https://maven.apache.org/download.cgi)
-    * [Nodejs](https://nodejs.org/en/download/)
-    * [XBuilder X](https://www.dcloud.io/hbuilderx.html)
-    * [微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)
-    * [Elasticsearch](https://www.elastic.co/cn/downloads/elasticsearch)
-    * [Erlang](https://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm)
-    * [RabbitMQ](http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.6/rabbitmq-server-3.6.6-1.el7.noarch.rpm)
-
-### 安装OpenJDK
-
-yum search java-11-openjdk
-
-yum install java-11-openjdk-devel.x86_64
-
-### 安装Maven
-
-wget https://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.zip
-
-unzip apache-maven-3.6.3-bin.zip
-
-vi /etc/profile
-
-在最后添加
-
-export M2_HOME=/root/apache-maven-3.6.3
-
-export PATH=$PATH:$JAVA_HOME/bin:$M2_HOME/bin
-
-source /etc/profile
+   
+    * [MySQL](./doc/deploy.md)
+    * [JDK1.8或以上](./doc/deploy.md)
+    * [Maven](./doc/deploy.md)
+    * [Git](./doc/deploy.md)
     
-    
-2. 数据库依次导入eye-db/sql下的数据库文件
+2. 环境配置延伸(目前项目的搜索默认为模糊查询,如果使用全文搜索引擎,请配置如下环境)
+   
+    * [Elasticsearch](./doc/deploy.md)
+    * [kibana](./doc/deploy.md)
+    * [Erlang](./doc/deploy.md)
+    * [RabbitMQ](./doc/deploy.md)
+   
+3. 数据库依次导入eye-db/sql下的数据库文件
     * 创建数据库eye
     * eye_table.sql
     * eye_data.sql
 
-3. 启动付费知识平台和管理后台及其各个网站的后端服务
+4. 启动付费知识平台和管理后台及其各个网站的后端服务
 
     打开命令行，输入以下命令
     ```bash
@@ -138,31 +114,21 @@ source /etc/profile
     查看日志：
     tail -f -n5000 nohup.out
     ```
-    
-4. 启动管理后台前端
 
-    打开命令行，输入以下命令
-    ```bash
-    npm install -g cnpm --registry=https://registry.npm.taobao.org
-    cd ulovemall/ulovemall-admin
-    cnpm install
-    cnpm run dev
-    ```
-    此时，浏览器打开，输入网址`http://localhost:9527`, 此时进入管理后台登录页面。
-    
-5. 启动知识付费平台微信小程序前端
-   
+## 开发配置
 
-6. 打包知识付费平台移动app前端
-
-7. 打包知识付费平台移动H5前端
-
-8. 启动品牌网前端
-
-9. 启动文章网前端
-
-
-        
+用户可以根据需要配置
+​    
+   * [日志配置](./doc/configuration.md)
+   * [数据库连接配置](./doc/configuration.md)
+   * [微信登录配置](./doc/configuration.md)
+   * [微信支付配置](./doc/configuration.md)
+   * [邮件通知配置](./doc/configuration.md)
+   * [短信通知配置](./doc/configuration.md)
+   * [物流配置](./doc/configuration.md)
+   * [对象存储配置](./doc/configuration.md)
+   * [其他配置](./doc/configuration.md)
+     
 ## 开发计划
 
 当前版本[v1.7.0](CHANGELOG.md)

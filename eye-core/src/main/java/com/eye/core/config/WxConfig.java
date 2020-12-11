@@ -38,7 +38,7 @@ public class WxConfig {
         payConfig.setAppId(properties.getAppId());
         payConfig.setMchId(properties.getMchId());
         payConfig.setMchKey(properties.getMchKey());
-//        payConfig.setNotifyUrl(properties.getNotifyUrl());
+        payConfig.setNotifyUrl(properties.getNotifyUrl());
         payConfig.setKeyPath("classpath:"+properties.getKeyPath());
 //        payConfig.setTradeType("JSAPI");//微信小程序支付类型
 //        payConfig.setTradeType("APP");//APP微信支付类型
@@ -52,5 +52,12 @@ public class WxConfig {
         WxPayService wxPayService = new WxPayServiceImpl();
         wxPayService.setConfig(payConfig);
         return wxPayService;
+    }
+
+    @Bean
+    public WxConfigVo createWxConfigVo(){
+        WxConfigVo wxConfigVo = new WxConfigVo();
+        wxConfigVo.setVipNotifyUrl(properties.getVipNotifyUrl());
+        return wxConfigVo;
     }
 }
